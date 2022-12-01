@@ -105,6 +105,9 @@ class MailBox
             $message_numbers = [];
         }
 
+        // Iterate over messages, the most recent item comes first
+        $message_numbers = array_reverse($message_numbers);
+
         return new MessageIterator($this->connection, $message_numbers);
     }
 
@@ -158,10 +161,10 @@ class MailBox
             return $this->folders;
         }
 
-        $this->folders = imap_getmailboxes($this->connection->getStream(), '{'.$this->connection->getServer().'}', '*');
+        $this->folders = imap_getmailboxes($this->connection->getStream(), '{' . $this->connection->getServer() . '}', '*');
 
         foreach ($this->folders as $key => $folder) {
-            $this->folders[$key] = str_replace('{'.$this->connection->getServer().'}', '', $folder->name);
+            $this->folders[$key] = str_replace('{' . $this->connection->getServer() . '}', '', $folder->name);
         }
 
         return $this->folders;
