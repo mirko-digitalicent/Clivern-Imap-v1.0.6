@@ -35,7 +35,7 @@ class MessageIterator extends \ArrayIterator
      *
      * @return Message
      */
-    public function current()
+    public function current(): mixed
     {
         $message = new Message(
             $this->connection,
