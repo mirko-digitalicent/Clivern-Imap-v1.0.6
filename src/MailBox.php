@@ -91,10 +91,11 @@ class MailBox
      * Get message ids.
      *
      * @param Search $search
+     * @param bool   $reverse
      *
      * @return MessageIterator
      */
-    public function getMessages(Search $search = null)
+    public function getMessages(Search $search = null, bool $reverse = true)
     {
         $this->connection->survive($this->folder);
         $query = ($search) ? (string) $search : 'ALL';
@@ -105,8 +106,10 @@ class MailBox
             $message_numbers = [];
         }
 
-        // Iterate over messages, the most recent item comes first
-        $message_numbers = array_reverse($message_numbers);
+        if ($reverse) {
+            // Iterate over messages, the most recent item comes first
+            $message_numbers = array_reverse($message_numbers);
+        }
 
         return new MessageIterator($this->connection, $message_numbers);
     }
